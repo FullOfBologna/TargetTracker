@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
         if(ev.getAction() == ev.ACTION_DOWN) {
             x = ev.getX();
             y = ev.getY();
-            indSpot.layout((int)x,(int)y, 200, 200);
+            indSpot.layout((int)x,(int)y, 200, 200); 
             indSpot.setVisibility(View.VISIBLE);
         }
 
