@@ -1,5 +1,7 @@
 package com.example.appbrewery.targettracker;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,14 +12,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 
-public class MainActivity extends ActionBarActivity implements View.OnTouchListener {
+public class MainActivity extends ActionBarActivity{
     public TextView xData,yData;
     public ImageView indSpot;
-    public float x,y;
+    RelativeLayout.LayoutParams params;
+
+    BluetoothAdapter btAdapter;
+
+    public float x,y,dx=0,dy=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,17 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
         indSpot = (ImageView) findViewById(R.id.indicatorView);
         xData = (TextView) findViewById(R.id.xPos);
         yData = (TextView) findViewById(R.id.yPos);
+
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(btAdapter==null){
+            Toast.makeText(getApplicationContext(),"No bluetooth detected",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            if(btAdapter.isEnabled()){
+                Intent intent = new Intent((BluetoothAdapter.ACTION_REQUEST_ENABLE));
+                startActivityForResult(intent,1);
+            }
+        }
 
     }
     @Override
@@ -55,14 +73,23 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent ev){
+    public boolean onTouchEvent(MotionEvent ev){
         if(ev.getAction() == ev.ACTION_DOWN) {
             x = ev.getX();
             y = ev.getY();
+
+
             xData.setText(String.valueOf(x));
             yData.setText(String.valueOf(y));
-            indSpot.layout((int)x,(int)y, 200, 200);
-            indSpot.setVisibility(View.VISIBLE);
+
+            //Save this for later. Try to get wireless protocol for connection and data transfer first.
+//            params = (RelativeLayout.LayoutParams) indSpot.getLayoutParams();
+//            dx = ev.getRawX()-params.leftMargin;
+//            dy = ev.getRawY()-params.topMargin;
+
+//            indSpot.layout((int)x,(int)y, (int)dx, (int)dy);
+//            indSpot.setVisibility(View.VISIBLE);
+//
         }
 
       return true;
