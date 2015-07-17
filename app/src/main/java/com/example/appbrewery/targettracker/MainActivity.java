@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnTouchListener {
-    public TextView pressLabel;
+    public TextView xData,yData;
     public ImageView indSpot;
     public float x,y;
 
@@ -26,6 +26,8 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
 //        pressLabel = (TextView) findViewById(R.id.pressIndic);
 //        pressLabel.setText("Not Pressed.");
         indSpot = (ImageView) findViewById(R.id.indicatorView);
+        xData = (TextView) findViewById(R.id.xPos);
+        yData = (TextView) findViewById(R.id.yPos);
 
     }
     @Override
@@ -57,7 +59,9 @@ public class MainActivity extends ActionBarActivity implements View.OnTouchListe
         if(ev.getAction() == ev.ACTION_DOWN) {
             x = ev.getX();
             y = ev.getY();
-            indSpot.layout((int)x,(int)y, 200, 200); 
+            xData.setText(String.valueOf(x));
+            yData.setText(String.valueOf(y));
+            indSpot.layout((int)x,(int)y, 200, 200);
             indSpot.setVisibility(View.VISIBLE);
         }
 
